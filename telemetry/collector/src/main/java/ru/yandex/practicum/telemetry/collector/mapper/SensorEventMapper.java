@@ -7,22 +7,16 @@ public class SensorEventMapper {
 
     public static SensorEventAvro toAvro(SensorEvent event) {
         long timestamp = event.getTimestamp().toEpochMilli();
+        String id = event.getId();
+        String hubId = event.getHubId();
 
-        if (event instanceof TemperatureSensorEvent temp) {
-            TemperatureSensorAvro payload = TemperatureSensorAvro.newBuilder()
-                    .setId(temp.getId())
-                    .setHubId(temp.getHubId())
-                    .setTimestamp(timestamp)
-                    .setTemperatureC(temp.getTemperatureC())
-                    .setTemperatureF(temp.getTemperatureF())
+        if (event instanceof ClimateSensorEvent climate) {
+            ClimateSensorAvro payload = ClimateSensorAvro.newBuilder()
+                    .setTemperatureC(climate.getTemperatureC())
+                    .setHumidity(climate.getHumidity())
+                    .setCo2Level(climate.getCo2level())
                     .build();
-
-            return SensorEventAvro.newBuilder()
-                    .setId(temp.getId())
-                    .setHubId(temp.getHubId())
-                    .setTimestamp(timestamp)
-                    .setPayload(payload)
-                    .build();
+            return buildAvro(id, hubId, timestamp, payload);
         }
 
         if (event instanceof LightSensorEvent light) {
@@ -30,13 +24,7 @@ public class SensorEventMapper {
                     .setLinkQuality(light.getLinkQuality())
                     .setLuminosity(light.getLuminosity())
                     .build();
-
-            return SensorEventAvro.newBuilder()
-                    .setId(light.getId())
-                    .setHubId(light.getHubId())
-                    .setTimestamp(timestamp)
-                    .setPayload(payload)
-                    .build();
+            return buildAvro(id, hubId, timestamp, payload);
         }
 
         if (event instanceof MotionSensorEvent motion) {
@@ -45,43 +33,33 @@ public class SensorEventMapper {
                     .setMotion(motion.isMotion())
                     .setVoltage(motion.getVoltage())
                     .build();
-
-            return SensorEventAvro.newBuilder()
-                    .setId(motion.getId())
-                    .setHubId(motion.getHubId())
-                    .setTimestamp(timestamp)
-                    .setPayload(payload)
-                    .build();
+            return buildAvro(id, hubId, timestamp, payload);
         }
 
         if (event instanceof SwitchSensorEvent sw) {
             SwitchSensorAvro payload = SwitchSensorAvro.newBuilder()
                     .setState(sw.isState())
                     .build();
-
-            return SensorEventAvro.newBuilder()
-                    .setId(sw.getId())
-                    .setHubId(sw.getHubId())
-                    .setTimestamp(timestamp)
-                    .setPayload(payload)
-                    .build();
+            return buildAvro(id, hubId, timestamp, payload);
         }
 
-        if (event instanceof ClimateSensorEvent climate) {
-            ClimateSensorAvro payload = ClimateSensorAvro.newBuilder()
-                    .setTemperatureC(climate.getTemperatureC())
-                    .setHumidity(climate.getHumidity())
-                    .setCo2Level(climate.getCo2level())
+        if (event instanceof TemperatureSensorEvent temp) {
+            TemperatureSensorAvro payload = TemperatureSensorAvro.newBuilder()
+                    .setTemperatureC(temp.getTemperatureC())
+                    .setTemperatureF(temp.getTemperatureF())
                     .build();
-
-            return SensorEventAvro.newBuilder()
-                    .setId(climate.getId())
-                    .setHubId(climate.getHubId())
-                    .setTimestamp(timestamp)
-                    .setPayload(payload)
-                    .build();
+            return buildAvro(id, hubId, timestamp, payload);
         }
 
         throw new IllegalArgumentException("Unsupported event type: " + event.getClass().getSimpleName());
+    }
+
+    private static SensorEventAvro buildAvro(String id, String hubId, long timestamp, Object payload) {
+        return SensorEventAvro.newBuilder()
+                .setId(id)
+                .setHubId(hubId)
+                .setTimestamp(timestamp)
+                .setPayload(payload)
+                .build();
     }
 }
