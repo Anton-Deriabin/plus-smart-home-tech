@@ -14,7 +14,7 @@ public class SensorEventMapper {
             ClimateSensorAvro payload = ClimateSensorAvro.newBuilder()
                     .setTemperatureC(climate.getTemperatureC())
                     .setHumidity(climate.getHumidity())
-                    .setCo2Level(climate.getCo2level())
+                    .setCo2Level(climate.getCo2Level())
                     .build();
             return buildAvro(id, hubId, timestamp, payload);
         }
