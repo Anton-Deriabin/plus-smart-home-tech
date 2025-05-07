@@ -51,7 +51,8 @@ public class SensorEventMapper {
             return buildAvro(id, hubId, timestamp, payload);
         }
 
-        throw new IllegalArgumentException("Unsupported event type: " + event.getClass().getSimpleName());
+        throw new IllegalArgumentException(String.format("Неподдерживаемый тип события датчика: %s",
+                event.getClass().getSimpleName()));
     }
 
     private static SensorEventAvro buildAvro(String id, String hubId, long timestamp, Object payload) {

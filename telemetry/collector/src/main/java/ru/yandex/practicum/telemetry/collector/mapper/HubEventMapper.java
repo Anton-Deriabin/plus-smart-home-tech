@@ -51,7 +51,8 @@ public class HubEventMapper {
             return buildAvro(hubId, timestamp, payload);
         }
 
-        throw new IllegalArgumentException("Unsupported hub event type: " + event.getClass().getSimpleName());
+        throw new IllegalArgumentException(String.format("Неподдерживаемый тип события хаба: %s",
+                event.getClass().getSimpleName()));
     }
 
     private static HubEventAvro buildAvro(String hubId, long timestamp, Object payload) {

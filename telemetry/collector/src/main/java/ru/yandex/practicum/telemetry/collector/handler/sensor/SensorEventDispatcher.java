@@ -27,7 +27,8 @@ public class SensorEventDispatcher {
     public void dispatch(SensorEvent event) {
         SensorEventHandler handler = handlerMap.get(event.getType());
         if (handler == null) {
-            throw new IllegalArgumentException("Нет обработчика для типа: " + event.getType());
+            throw new IllegalArgumentException(String.format("Нет обработчика для типа: %s",
+                    event.getType()));
         }
         handler.handle(event);
     }
