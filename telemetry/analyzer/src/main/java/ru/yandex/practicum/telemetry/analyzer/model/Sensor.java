@@ -1,14 +1,11 @@
 package ru.yandex.practicum.telemetry.analyzer.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Entity
-@Table(name = "sensors")
+@Table(name = Sensor.TABLE_NAME)
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -17,10 +14,14 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @ToString
 public class Sensor {
+    public static final String TABLE_NAME = "sensors";
+    public static final String ID = "id";
+    public static final String HUB_ID = "hub_id";
 
     @Id
+    @Column(name = ID)
     String id;
 
-    @Column(name = "hub_id")
+    @Column(name = HUB_ID)
     String hubId;
 }
