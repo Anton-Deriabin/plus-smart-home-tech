@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(of = Scenario.ID)
+@EqualsAndHashCode(of = "id")
 @Getter
 @Setter
 @ToString
