@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Entity
-@Table(name = "scenario_conditions")
+@Table(name = ScenarioCondition.TABLE_NAME)
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -15,22 +15,26 @@ import lombok.experimental.FieldDefaults;
 @ToString(exclude = {"scenario", "sensor", "condition"})
 @IdClass(ScenarioConditionId.class)
 public class ScenarioCondition {
+    public static final String TABLE_NAME = "scenario_conditions";
+    public static final String SCENARIO_ID = "scenario_id";
+    public static final String SENSOR_ID = "sensor_id";
+    public static final String CONDITION_ID = "condition_id";
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "scenario_id")
+    @JoinColumn(name = SCENARIO_ID)
     @EqualsAndHashCode.Include
     Scenario scenario;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "sensor_id")
+    @JoinColumn(name = SENSOR_ID)
     @EqualsAndHashCode.Include
     Sensor sensor;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "condition_id")
+    @JoinColumn(name = CONDITION_ID)
     @EqualsAndHashCode.Include
     Condition condition;
 }
