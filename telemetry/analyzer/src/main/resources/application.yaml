@@ -23,14 +23,15 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 
 ---
+# Только отличающиеся параметры для prod
 spring:
   config:
     activate:
       on-profile: prod
+
 eureka:
   client:
     enabled: true
-spring:
-  cloud:
-    config:
-      enabled: true
+cloud:
+  config:
+    enabled: true
