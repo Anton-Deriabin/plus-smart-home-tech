@@ -5,6 +5,7 @@ spring:
     import: "configserver:"
   cloud:
     config:
+      enabled: false
       fail-fast: true
       retry:
         use-random-policy: true
@@ -13,9 +14,23 @@ spring:
         enabled: true
         serviceId: config-server
 
-  eureka:
-    instance:
-      hostname: localhost
-    client:
-      serviceUrl:
-        defaultZone: http://localhost:8761/eureka/
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    enabled: false
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+eureka:
+  client:
+    enabled: true
+spring:
+  cloud:
+    config:
+      enabled: true
