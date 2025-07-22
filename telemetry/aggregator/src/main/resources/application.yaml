@@ -1,3 +1,36 @@
 spring:
   application:
     name: aggregator
+  cloud:
+    config:
+      enabled: false
+      fail-fast: true
+      retry:
+        use-random-policy: true
+        max-interval: 6000
+      discovery:
+        enabled: true
+        serviceId: config-server
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    enabled: false
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+---
+# Только отличающиеся параметры для prod
+spring:
+  config:
+    activate:
+      on-profile: prod
+    import: "configserver:"
+
+eureka:
+  client:
+    enabled: true
+cloud:
+  config:
+    enabled: true
